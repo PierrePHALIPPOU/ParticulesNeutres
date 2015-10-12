@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1444039607 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/main.cpp
+1444640628 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/main.cpp
 	<iostream>
 	<fstream>
 	<math.h>
+	<string.h>
 	"TP1.h"
 	"SolveurMC.h"
 
@@ -28,15 +29,16 @@
 	<time.h>
 	<math.h>
 
-1444039509 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.cpp
+1444641015 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.cpp
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<math.h>
+	<string.h>
 	<vector>
 	"SolveurMC.h"
 
-1443436733 /auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.h
+1444635159 /auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.h
 	<vector>
 

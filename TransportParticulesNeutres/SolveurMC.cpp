@@ -3,19 +3,20 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <string.h>
 #include<vector>
 #include "SolveurMC.h"
 
 
 using namespace std;
 
-std::vector<REAL> SolveurMC(int N, int K, REAL st){
+std::vector<REAL> SolveurMC(int N, int K, REAL st, REAL mu, char* source){
 
   std::vector<REAL> X (N);
   std::vector<REAL> I(K+1);
-  REAL mu=0.5;
   REAL Q=0;
   REAL u=0;
+  REAL X0=0;
   int j;
 
   srand (time(NULL));
@@ -26,35 +27,44 @@ std::vector<REAL> SolveurMC(int N, int K, REAL st){
     I[i]=0;
   }
 
-  I[0]=N;
 
-
+  //for (int i=1; i<=1; i=i+1){
   for (int i=1; i<=N; i=i+1){
 
-    //REAL mu=rand();
-
-    //cout<<"pas N"<<i<<", rand="<<((REAL)rand())/RAND_MAX<<endl;
 
     REAL L=-log(((REAL)rand())/RAND_MAX)/st;
-    X[i]=mu*L;
-      //cout<<X[i]<<endl;
+
+    if (strcmp(source,"Dirac")==0){
+      X0=0;
+      I[0]=N;
+    }
+    else if (strcmp(source,"Uniforme")==0){
+      X0= ((REAL)rand())/RAND_MAX;
+      //cout << "XO="<<X0<<endl;
+    }
+
+    X[i]=X0+mu*L;
+    //cout<<"X="<<X[i]<<endl;
 
 
-    //cout<<"pas N"<<i<<", X="<<X[i]<<endl;
-
-    //pour avoir Q app exp(-st/nu)
-    for (int j=1; j<=K; j++){
-      if(X[i]>= (((REAL)j)/((REAL)(K))) ){
-          //cout<<"itération"<<j<<endl;
-          //cout<<X[i]<<"comparé"<<(((REAL)j)/((REAL)K))<<endl;
+    for (int j=0; j<K+1; j++){
+      if(mu>=0){
+        if( (X0<=(((REAL)j)/((REAL)(K))))&&((((REAL)j)/((REAL)(K)))<=X[i]) ){
         I[j]=I[j]+1;
-          //cout<<I[j]<<endl;
-      }else break;
+        //cout<<"J'incrémente la frontière"<<(((REAL)j)/((REAL)(K)))<<endl;
+        }
+      }
+      if(mu<0){
+        if( (X[i]<=(((REAL)j)/((REAL)(K))))&&((((REAL)j)/((REAL)(K)))<=X0) ){
+        I[j]=I[j]+1;
+        }
+      }
+
     }
   }
 
   for (int i=0; i<=K; i++){
-    I[i]=I[i]/((REAL)(N*mu));
+    I[i]=fabs(I[i]/((REAL)(N*mu)));
   }
 
   return I;

@@ -4,7 +4,7 @@
 
 typedef double REAL;
 
-std::vector<REAL> SolveurMC(int, int, REAL);
+std::vector<REAL> SolveurMC(int, int, REAL, REAL, char*);
 
 #endif
 
