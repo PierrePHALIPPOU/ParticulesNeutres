@@ -32,8 +32,8 @@ int main()
     std::ofstream exact ("exact.dat");
 
     //parametres du solveur
-    int N=100000;//nombre de particules
-    int K=1000;//taille de la discrétisation de [0,1]
+    int N=1000000;//nombre de particules
+    int K=100;//taille de la discrétisation de [0,1]
     REAL mu=0.5;//mu (non utilisé dans solveurMCHomogeneDiff
 
     std::vector<REAL> absm (K+1);

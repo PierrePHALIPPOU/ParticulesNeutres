@@ -175,22 +175,35 @@ std::vector<REAL> SolveurMCHomogeneDiff(int N, int K){
     X0=X[i];
 
     REAL L=-log(((REAL)rand())/RAND_MAX)/st;
-    REAL mu=((REAL)rand())/RAND_MAX;
+    REAL mu=2*(((REAL)rand())/RAND_MAX)-1;//on tire mu entre [-1,1] de maniere uniforme
 
     X[i]=X[i]+mu*L;
 
 
     for (int j=0; j<K+1; j++){
+       if(mu>=0){
         if( (X0<=(((REAL)j)/((REAL)(K))))&&((((REAL)j)/((REAL)(K)))<=X[i]) ){
-          I[j]=I[j]+(1/mu);
+        I[j]=I[j]+(1/fabs(mu));
+        //cout<<"J'incrémente la frontière"<<(((REAL)j)/((REAL)(K)))<<endl;
         }
+      }
+      if(mu<0){
+        if( (X[i]<=(((REAL)j)/((REAL)(K))))&&((((REAL)j)/((REAL)(K)))<=X0) ){
+        I[j]=I[j]+(1/fabs(mu));
+        //cout<<"J'incrémente la frontière"<<(((REAL)j)/((REAL)(K)))<<endl;
+        }
+      }
     }
     j=0;
 
     //Diffusion ?
-    if(  (((REAL)rand())/RAND_MAX)  <=  (st/(st+ss))   ){
-      i=i+1;//on passe a la particule suivante
+    //if(  (((REAL)rand())/RAND_MAX)  <=  (st/(st+ss))   ){
+      //i=i+1;//on passe a la particule suivante
+    //}
+    if ( (X[i]>=1)||(X[i]<=0)){
+      i=i+1;
     }
+    //i=i+1;
   }
 
   for (int i=0; i<=K; i++){
