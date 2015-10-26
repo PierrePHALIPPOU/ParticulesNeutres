@@ -11,7 +11,7 @@
 
 using namespace std;
 
-std::vector<REAL> SchemaDiamant(int K, REAL mu, REAL sd, std::vector<REAL> Qt,REAL CL){
+std::vector<REAL> SchemaDiamant(int K, REAL mu,std::vector<REAL> sd, std::vector<REAL> Qt,REAL CL){
 
   std::vector<REAL> PHI(K+1);
 
@@ -20,14 +20,14 @@ std::vector<REAL> SchemaDiamant(int K, REAL mu, REAL sd, std::vector<REAL> Qt,RE
   if (mu>0){
     PHI[0]=CL;
     for (int i=1; i<=K; i++){
-      PHI[i]= (2*DELTA*Qt[i-1] + (2*mu - DELTA*sd)*PHI[i-1])/(2*mu + DELTA*sd);
+      PHI[i]= (2*DELTA*Qt[i-1] + (2*mu - DELTA*sd[i])*PHI[i-1])/(2*mu + DELTA*sd[i]);
     }
   }
 
   if (mu<0){
     PHI[K]=CL;
     for (int i=K-1; i>=0; i--){
-      PHI[i]=(2*DELTA*Qt[i+1] - (2*mu + DELTA*sd)*PHI[i+1])/(DELTA*sd - 2*mu);
+      PHI[i]=(2*DELTA*Qt[i+1] - (2*mu + DELTA*sd[i])*PHI[i+1])/(DELTA*sd[i] - 2*mu);
     }
   }
 

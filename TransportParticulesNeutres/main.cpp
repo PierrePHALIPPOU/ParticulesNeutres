@@ -11,6 +11,10 @@ using namespace std;
 int main()
 {
   char partie[]="Deterministe";//"Deterministe" ou "MonteCarlo"
+  char materiau[]="Inhomogene"; //"Homogene" ou "Inhomogene" ou "HomogeneDiff"
+  char source[]="Dirac"; //"Dirac" ou "Uniforme" pour le solveurMCHomogene
+
+  REAL mu=0.5;
 
 
   //////////////////////////////////////////////////
@@ -19,12 +23,12 @@ int main()
 
  if(strcmp(partie,"MonteCarlo")==0){
 
+    //parametres du solveur
+    int N=1000000;//nombre de particules
+    int K=100;//taille de la discrétisation de [0,1]
 
-   //Initialistaion des constantes
-   //On défini les caractéristiques du problème
-    char source[]="Uniforme"; //"Dirac" ou "Uniforme" pour le solveurMCHomogene
-    char materiau[]="Homogene"; //"Homogene" ou "Inhomogene" ou "HomogeneDiff"
-
+    //Initialistaion des constantes
+    //On défini les caractéristiques du problème
 
     //definition du materieu Inhomogene
     std::vector<REAL> abst (3);
@@ -41,10 +45,6 @@ int main()
     std::ofstream solveur ("solveurMC.dat");
     std::ofstream exact ("exactMC.dat");
 
-    //parametres du solveur
-    int N=1000000;//nombre de particules
-    int K=100;//taille de la discrétisation de [0,1]
-    REAL mu=-0.5;//mu (non utilisé dans solveurMCHomogeneDiff
 
     std::vector<REAL> absm (K+1);
     std::vector<REAL> E (K+1);
@@ -148,19 +148,32 @@ int main()
   if(strcmp(partie,"Deterministe")==0){
 
     int K=10000;
-    REAL mu=-0.5;
-    REAL sd=1;
+
+    std::vector<REAL> sd (K+1);
     std::vector<REAL> Qt (K+1);
     std::vector<REAL> absm (K+1);
-    REAL CL=0;//1/mu, mu>0; 0 sinon
+    REAL CL=1/mu;//1/mu, mu>0; 0 sinon
+    if(strcmp(source,"Uniforme")==0){
+      CL=0;
+    }
 
     std::vector<REAL> I (K+1);
 
     for (int i=0; i<K+1; i++){
       I[i]=0;
-      Qt[i]=1;
+      Qt[i]=0;
+      if(strcmp(source,"Uniforme")==0){
+        Qt[i]=1;
+      }
       absm[i] = i/((REAL)K);
+      sd[i]=1;
+      if (strcmp(materiau,"Inhomogene")==0){
+        if ( (0.3<absm[i])&&(absm[i]<=0.7) ){
+          sd[i]=3;
+        }
+      }
     }
+
 
     std::ofstream solveur ("solveurD.dat");
 
