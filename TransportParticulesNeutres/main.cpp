@@ -4,16 +4,26 @@
 #include <string.h>
 #include "TP1.h"
 #include "SolveurMC.h"
+#include "SolveurD.h"
 
 using namespace std;
 
 int main()
 {
+  char partie[]="Deterministe";//"Deterministe" ou "MonteCarlo"
 
-    //Initialistaion des constantes
-      //On défini les caractéristiques du problème
-      char source[]="Uniforme"; //"Dirac" ou "Uniforme" pour le solveurMCHomogene
-      char materiau[]="HomogeneDiff"; //"Homogene" ou "Inhomogene" ou "HomogeneDiff"
+
+  //////////////////////////////////////////////////
+ ////////////  Partie Monte Carlo ////////////////////
+ ///////////////////////////////////////////////////
+
+ if(strcmp(partie,"MonteCarlo")==0){
+
+
+   //Initialistaion des constantes
+   //On défini les caractéristiques du problème
+    char source[]="Uniforme"; //"Dirac" ou "Uniforme" pour le solveurMCHomogene
+    char materiau[]="Homogene"; //"Homogene" ou "Inhomogene" ou "HomogeneDiff"
 
 
     //definition du materieu Inhomogene
@@ -28,13 +38,13 @@ int main()
     int sizest=st.size();
 
     //déclaration des fichiers texte de sorti
-    std::ofstream solveur ("solveur.dat");
-    std::ofstream exact ("exact.dat");
+    std::ofstream solveur ("solveurMC.dat");
+    std::ofstream exact ("exactMC.dat");
 
     //parametres du solveur
     int N=1000000;//nombre de particules
     int K=100;//taille de la discrétisation de [0,1]
-    REAL mu=0.5;//mu (non utilisé dans solveurMCHomogeneDiff
+    REAL mu=-0.5;//mu (non utilisé dans solveurMCHomogeneDiff
 
     std::vector<REAL> absm (K+1);
     std::vector<REAL> E (K+1);
@@ -126,7 +136,40 @@ int main()
     for (int i=0 ; i<absm.size() ; ++i) {
       exact << absm[i] << " " << E[i]<< std::endl;
     }
-
     //cout<<"u="<<u<<endl;
     //cout<<"u réél="<<2*exp(-2)<<endl;
+ }
+
+
+ ////////////////////////////////////////////////////////
+/////////////  Partie Deterministe   /////////////////////
+ ///////////////////////////////////////////////////////
+
+  if(strcmp(partie,"Deterministe")==0){
+
+    int K=10000;
+    REAL mu=-0.5;
+    REAL sd=1;
+    std::vector<REAL> Qt (K+1);
+    std::vector<REAL> absm (K+1);
+    REAL CL=0;//1/mu, mu>0; 0 sinon
+
+    std::vector<REAL> I (K+1);
+
+    for (int i=0; i<K+1; i++){
+      I[i]=0;
+      Qt[i]=1;
+      absm[i] = i/((REAL)K);
+    }
+
+    std::ofstream solveur ("solveurD.dat");
+
+    I=SchemaDiamant(K,mu,sd,Qt,CL);
+
+    for(int i=0;i<K+1;i++){
+      solveur<<absm[i]<<" "<<I[i]<<std::endl;
+    }
+  }
+
+
 }

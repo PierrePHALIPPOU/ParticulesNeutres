@@ -33,6 +33,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="SolveurD.cpp" />
+		<Unit filename="SolveurD.h" />
 		<Unit filename="SolveurMC.cpp" />
 		<Unit filename="SolveurMC.h" />
 		<Unit filename="TP1.cpp" />

@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1444927682 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/main.cpp
+1445852816 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/main.cpp
 	<iostream>
 	<fstream>
 	<math.h>
 	<string.h>
 	"TP1.h"
 	"SolveurMC.h"
+	"SolveurD.h"
 
 1442830018 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/TP1.c
 	<stdio.h>
@@ -29,7 +30,7 @@
 	<time.h>
 	<math.h>
 
-1445243646 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.cpp
+1445247033 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.cpp
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
@@ -40,6 +41,20 @@
 	<algorithm>
 	"SolveurMC.h"
 
-1444923798 /auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.h
+1445247128 /auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurMC.h
+	<vector>
+
+1445854270 source:/auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurD.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<math.h>
+	<string.h>
+	<vector>
+	<algorithm>
+	"SolveurD.h"
+
+1445850234 /auto/p/phalippou/Documents/AMSTA02/TransportParticulesNeutres/SolveurD.h
 	<vector>
 
