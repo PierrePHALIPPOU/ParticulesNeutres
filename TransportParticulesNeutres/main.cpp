@@ -11,9 +11,9 @@ using namespace std;
 int main()
 {
   char partie[]="Deterministe";//"Deterministe" ou "MonteCarlo"
-  char materiau[]="Inhomogene"; //"Homogene" ou "Inhomogene" ou "HomogeneDiff"
-  char source[]="Dirac"; //"Dirac" ou "Uniforme" pour le solveurMCHomogene
-
+  char materiau[]="Homogene"; //"Homogene" ou "Inhomogene" ou "HomogeneDiff"
+  char source[]="Uniforme"; //"Dirac" ou "Uniforme" pour le solveurMCHomogene
+  char methode[]="SN";
   REAL mu=0.5;
 
 
@@ -142,15 +142,16 @@ int main()
 
 
  ////////////////////////////////////////////////////////
-/////////////  Partie Deterministe   /////////////////////
+//////////// ~~~~~> Partie Deterministe <~~~~~ ////////////
  ///////////////////////////////////////////////////////
 
-  if(strcmp(partie,"Deterministe")==0){
+  if ( (strcmp(partie,"Deterministe")==0) && (strcmp(methode,"SN")>0)  ){
 
     int K=10000;
 
-    std::vector<REAL> sd (K+1);
-    std::vector<REAL> Qt (K+1);
+
+    std::vector<REAL> sd (K+1);// <3   <3    <3
+    std::vector<REAL> Qt (K+1);//   <3    <3
     std::vector<REAL> absm (K+1);
     REAL CL=1/mu;//1/mu, mu>0; 0 sinon
     if(strcmp(source,"Uniforme")==0){
@@ -180,6 +181,45 @@ int main()
     I=SchemaDiamant(K,mu,sd,Qt,CL);
 
     for(int i=0;i<K+1;i++){
+      solveur<<absm[i]<<" "<<I[i]<<std::endl;
+    }
+  }
+
+  if ( (strcmp(partie,"Deterministe")==0) && (strcmp(methode,"SN")==0)  ){
+    int K=10000;
+    REAL CL;
+    REAL epsilon=0.01;
+    std::vector<REAL> S (K);
+    std::vector<REAL> sd (K);
+    std::vector<REAL> absm (K);
+
+    int i=0;
+
+    for (i=0; i<K; i++){
+      sd[i]=1;
+      absm[i]=(1/2*K)+((REAL)i)/K;
+    }
+
+    if (strcmp(source,"Uniforme")==0){
+      CL=0;
+      for (i=0; i<K+1; i++){
+        S[i]=1;
+      }
+    }
+    if (strcmp(source,"Dirac")==0){
+      CL=0;
+      for (i=0; i<K+1; i++){
+        S[i]=0;
+      }
+      S[0]=1;
+    }
+
+    std::vector<REAL> I (K);
+    std::ofstream solveur ("solveurD.dat");
+
+    I=MethodeSN( K, epsilon, CL, sd, S);
+
+    for(int i=0;i<K;i++){
       solveur<<absm[i]<<" "<<I[i]<<std::endl;
     }
   }
